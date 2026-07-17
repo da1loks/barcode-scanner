@@ -1,9 +1,9 @@
 <div align="center">
 
-# barcode-scan
+# barcode-scanner
 
-[![Stars](https://img.shields.io/github/stars/da1loks/barcode-scan?style=flat&logo=github)](https://github.com/da1loks/barcode-scan/stargazers)
-[![Forks](https://img.shields.io/github/forks/da1loks/barcode-scan?style=flat&logo=github)](https://github.com/da1loks/barcode-scan/network/members)
+[![Stars](https://img.shields.io/github/stars/da1loks/barcode-scanner?style=flat&logo=github)](https://github.com/da1loks/barcode-scan/stargazers)
+[![Forks](https://img.shields.io/github/forks/da1loks/barcode-scanner?style=flat&logo=github)](https://github.com/da1loks/barcode-scan/network/members)
 [![License](https://img.shields.io/badge/license-MIT-yellow)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Ubuntu%2022.04-lightgrey)](#install)
