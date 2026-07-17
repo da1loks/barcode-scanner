@@ -3,5 +3,4 @@ numpy
 zxing-cpp
 fastapi
 uvicorn
-httpx
 pydantic
