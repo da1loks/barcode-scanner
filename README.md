@@ -1,6 +1,6 @@
 <div align="center">
 
-# barcode-scan
+# barcode-scanner
 
 [![Stars](https://img.shields.io/github/stars/da1loks/barcode-scanner?style=flat&logo=github)](https://github.com/da1loks/barcode-scanner/stargazers)
 [![Forks](https://img.shields.io/github/forks/da1loks/barcode-scanner?style=flat&logo=github)](https://github.com/da1loks/barcode-scanner/network/members)
