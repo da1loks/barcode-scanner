@@ -1,9 +1,9 @@
 <div align="center">
 
-# barcode-scanner
+# barcode-scan
 
-[![Stars](https://img.shields.io/github/stars/da1loks/barcode-scanner?style=flat&logo=github)](https://github.com/da1loks/barcode-scan/stargazers)
-[![Forks](https://img.shields.io/github/forks/da1loks/barcode-scanner?style=flat&logo=github)](https://github.com/da1loks/barcode-scan/network/members)
+[![Stars](https://img.shields.io/github/stars/da1loks/barcode-scanner?style=flat&logo=github)](https://github.com/da1loks/barcode-scanner/stargazers)
+[![Forks](https://img.shields.io/github/forks/da1loks/barcode-scanner?style=flat&logo=github)](https://github.com/da1loks/barcode-scanner/network/members)
 [![License](https://img.shields.io/badge/license-MIT-yellow)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Ubuntu%2022.04-lightgrey)](#install)
@@ -49,8 +49,8 @@ EAN-13, EAN-8, UPC-A, UPC-E, Code 128, Code 39, QR, and other formats supported 
 ### Windows
 
 ```bash
-git clone https://github.com/da1loks/barcode-scan.git
-cd barcode-scan
+git clone https://github.com/da1loks/barcode-scanner.git
+cd barcode-scanner
 pip install -r requirements.txt
 ```
 
@@ -68,8 +68,8 @@ sudo usermod -aG video $USER
 Log out and back in (or reboot) so the `video` group applies, then:
 
 ```bash
-git clone https://github.com/da1loks/barcode-scan.git
-cd barcode-scan
+git clone https://github.com/da1loks/barcode-scanner.git
+cd barcode-scanner
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -123,7 +123,7 @@ Open it on screen (or print it), run the scanner, and point the camera at it. Yo
 ## Project layout
 
 ```text
-barcode-scan/
+barcode-scanner/
 ├── scan.py            # main scanner
 ├── requirements.txt   # dependencies
 ├── test_code.png      # sample Code 128 barcode
