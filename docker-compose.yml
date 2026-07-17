@@ -1,0 +1,26 @@
+services:
+  barcode-scanner:
+    build: .
+    container_name: barcode-scanner
+    restart: unless-stopped
+    ports:
+      - "${PORT:-8080}:8080"
+    environment:
+      HEADLESS: "1"
+      HOST: "0.0.0.0"
+      PORT: "8080"
+      CAM_INDEX: "${CAM_INDEX:-0}"
+      HISTORY_DB: /data/history.db
+      CALIB_PATH: /data/calibration.json
+    volumes:
+      - scanner-data:/data
+    devices:
+      # USB webcam on Linux host — change to /dev/video1 if needed
+      - /dev/video0:/dev/video0
+    group_add:
+      - video
+    # If the camera still won't open, try uncommenting:
+    # privileged: true
+
+volumes:
+  scanner-data:

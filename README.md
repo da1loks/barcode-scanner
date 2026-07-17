@@ -302,6 +302,55 @@ curl "http://127.0.0.1:8080/history?manipulator_id=arm-1&event=found"
 
 Interactive docs: [http://127.0.0.1:8080/docs](http://127.0.0.1:8080/docs)
 
+## Docker deploy (Linux host + USB camera)
+
+The API runs **headless** in the container (no preview window). The host USB camera is passed through as `/dev/video*`.
+
+> Camera passthrough works reliably on a **Linux** host. Docker Desktop on Windows/macOS usually cannot expose a USB webcam to Linux containers.
+
+### 1. Find the camera on the host
+
+```bash
+v4l2-ctl --list-devices
+ls -l /dev/video*
+```
+
+Often the USB cam is `/dev/video0` (set `CAM_INDEX=0`). If it is `video1`, edit `devices:` in `docker-compose.yml` and set `CAM_INDEX=1`.
+
+### 2. Build and run
+
+```bash
+cp .env.example .env
+docker compose up -d --build
+docker compose logs -f
+```
+
+API: `http://HOST:8080` — docs at `/docs`.
+
+### 3. Persist data
+
+`history.db` and `calibration.json` live in the Docker volume `scanner-data` (`/data` inside the container).
+
+### 4. Useful commands
+
+```bash
+docker compose ps
+docker compose restart
+docker compose down
+curl http://127.0.0.1:8080/health
+```
+
+If OpenCV cannot open the camera inside the container, uncomment `privileged: true` in `docker-compose.yml`, confirm the device path, and ensure the container user can access the `video` group.
+
+Env vars in compose / container:
+
+| Variable | Default in Docker | Meaning |
+| --- | --- | --- |
+| `HEADLESS` | `1` | no OpenCV window |
+| `CAM_INDEX` | `0` | V4L2 camera index |
+| `HISTORY_DB` | `/data/history.db` | SQLite path |
+| `CALIB_PATH` | `/data/calibration.json` | calibration file |
+
 ## Project layout
 
 ```text
@@ -311,6 +360,9 @@ barcode-scanner/
 ├── camera.py
 ├── coords.py
 ├── history.py
+├── Dockerfile
+├── docker-compose.yml
+├── .env.example
 ├── requirements.txt
 ├── test_code.png
 └── README.md
@@ -608,6 +660,53 @@ curl "http://127.0.0.1:8080/history?manipulator_id=arm-1&event=found"
 
 Интерактивная документация: [http://127.0.0.1:8080/docs](http://127.0.0.1:8080/docs)
 
+## Деплой в Docker (Linux-хост + USB-камера)
+
+В контейнере API работает в режиме **headless** (без окна превью). USB-камера хоста пробрасывается как `/dev/video*`.
+
+> Проброс камеры стабильно работает на **Linux**-хосте. Docker Desktop на Windows/macOS обычно **не** отдаёт USB-веб-камеру в Linux-контейнер.
+
+### 1. Найти камеру на хосте
+
+```bash
+v4l2-ctl --list-devices
+ls -l /dev/video*
+```
+
+Часто USB-камера — это `/dev/video0` (`CAM_INDEX=0`). Если `video1` — поправь `devices:` в `docker-compose.yml` и выставь `CAM_INDEX=1`.
+
+### 2. Сборка и запуск
+
+```bash
+cp .env.example .env
+docker compose up -d --build
+docker compose logs -f
+```
+
+API: `http://HOST:8080`, документация — `/docs`.
+
+### 3. Данные
+
+`history.db` и `calibration.json` хранятся в Docker volume `scanner-data` (внутри контейнера — `/data`).
+
+### 4. Полезные команды
+
+```bash
+docker compose ps
+docker compose restart
+docker compose down
+curl http://127.0.0.1:8080/health
+```
+
+Если камера внутри контейнера не открывается — раскомментируй `privileged: true` в `docker-compose.yml`, проверь путь устройства и доступ группы `video`.
+
+| Переменная | В Docker по умолчанию | Смысл |
+| --- | --- | --- |
+| `HEADLESS` | `1` | без окна OpenCV |
+| `CAM_INDEX` | `0` | индекс V4L2-камеры |
+| `HISTORY_DB` | `/data/history.db` | путь к SQLite |
+| `CALIB_PATH` | `/data/calibration.json` | файл калибровки |
+
 ## Структура проекта
 
 ```text
@@ -617,6 +716,9 @@ barcode-scanner/
 ├── camera.py
 ├── coords.py
 ├── history.py
+├── Dockerfile
+├── docker-compose.yml
+├── .env.example
 ├── requirements.txt
 ├── test_code.png
 └── README.md

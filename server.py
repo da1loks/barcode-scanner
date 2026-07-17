@@ -25,6 +25,7 @@ CAM_INDEX = int(sys.argv[1]) if len(sys.argv) > 1 else int(os.getenv("CAM_INDEX"
 HOST = os.getenv("HOST", "0.0.0.0")
 PORT = int(os.getenv("PORT", "8080"))
 HISTORY_DB = os.getenv("HISTORY_DB", "history.db")
+HEADLESS = os.getenv("HEADLESS", "0").strip().lower() in ("1", "true", "yes", "on")
 
 app = FastAPI(
     title="barcode-scanner",
@@ -154,15 +155,18 @@ def camera_loop():
     print(f"api http://{HOST}:{PORT}")
     print(f"ws   ws://{HOST}:{PORT}/ws")
     print(f"history {HISTORY_DB}")
+    print(f"headless={HEADLESS}")
     print("модель: манипуляторы → бэкенд (pull + websocket)")
 
-    cv2.namedWindow("scan", cv2.WINDOW_NORMAL)
-    cv2.resizeWindow("scan", 480, 270)
+    if not HEADLESS:
+        cv2.namedWindow("scan", cv2.WINDOW_NORMAL)
+        cv2.resizeWindow("scan", 480, 270)
 
     while running:
         ok, frame = cap.read()
         if not ok:
-            break
+            time.sleep(0.05)
+            continue
 
         h, w = frame.shape[:2]
         frame_size = {"width": w, "height": h}
@@ -248,12 +252,16 @@ def camera_loop():
                 log_event("found", task=task)
                 notify({"event": "task_update", "task": public_task(task)})
 
-        cv2.imshow("scan", frame)
-        if cv2.waitKey(1) & 0xFF == ord("q"):
-            break
+        if HEADLESS:
+            time.sleep(0.01)
+        else:
+            cv2.imshow("scan", frame)
+            if cv2.waitKey(1) & 0xFF == ord("q"):
+                break
 
     cap.release()
-    cv2.destroyAllWindows()
+    if not HEADLESS:
+        cv2.destroyAllWindows()
 
 
 @app.on_event("startup")

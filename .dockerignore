@@ -1,0 +1,12 @@
+.git
+.venv
+venv
+__pycache__
+*.pyc
+*.pyo
+.env
+.idea
+.vscode
+history.db
+calibration.json
+test_history.db
